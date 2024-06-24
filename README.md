@@ -18,7 +18,7 @@ text2video is a tool that enables you to generate text-to-speech (TTS) audio, co
     pip install -r requirements.txt
     ```
 
-3. Ensure you have [ImageMagick](https://imagemagick.org/) installed on your system, as it is required by `moviepy` for subtitle rendering.
+3. Ensure you have [ImageMagick](https://imagemagick.org/) and [ffmpeg](https://ffmpeg.org/) installed on your system, as it is required by `moviepy` for subtitle rendering.
 
 ## Usage
 

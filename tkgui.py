@@ -247,12 +247,23 @@ button_back_to_main.pack(pady=10)
 
 # Menu bar
 menu_bar = tk.Menu(root)
-root.config(menu=menu_bar)
-menu_bar.add_command(label="Home", command=show_main_page)
-menu_bar.add_command(label="Create Video", command=show_subclip_page)
+
+# Home menu
+home_menu = tk.Menu(menu_bar, tearoff=0)
+home_menu.add_command(label="Home", command=show_main_page)
+menu_bar.add_cascade(label="Home", menu=home_menu)
+
+# Create Video menu
+create_video_menu = tk.Menu(menu_bar, tearoff=0)
+create_video_menu.add_command(label="Create Video", command=show_subclip_page)
+menu_bar.add_cascade(label="Create Video", menu=create_video_menu)
+
+# Settings menu
 settings_menu = tk.Menu(menu_bar, tearoff=0)
-menu_bar.add_cascade(label="Setting", menu=settings_menu)
 settings_menu.add_command(label="Set OpenAI key", command=show_settings_page)
+menu_bar.add_cascade(label="Settings", menu=settings_menu)
+
+root.config(menu=menu_bar)
 
 # Check config file
 if config.has_option("Settings", "openai_key"):
