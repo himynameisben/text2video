@@ -87,7 +87,6 @@ Here's a step-by-step guide to troubleshoot the ImageMagick error and modify the
 - Test to ensure the issue is resolved.
 
 By following these steps, you should be able to resolve the ImageMagick error related to read and write permissions.
-```
 
 ## Contributing
 

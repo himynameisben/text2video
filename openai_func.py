@@ -2,14 +2,15 @@ import os
 import re
 import configparser
 from openai import OpenAI
+
 # from dotenv import load_dotenv
 # load_dotenv()
 
 # client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
-
 # client = OpenAI(api_key=api_key)
+
 
 # use singleton pattern to crete client
 class OpenAIClientSingleton:
@@ -19,15 +20,15 @@ class OpenAIClientSingleton:
     def getInstance(cls):
         if cls._instance is None:
             config = configparser.ConfigParser()
-            config.read('settings.ini')
-            api_key = config.get('Settings', 'openai_key', fallback=os.getenv("OPENAI_API_KEY"))
+            config.read("settings.ini")
+            api_key = config.get(
+                "Settings", "openai_key", fallback=os.getenv("OPENAI_API_KEY")
+            )
             if api_key:
                 cls._instance = OpenAI(api_key=api_key)
             else:
                 raise ValueError("API key has not been set.")
         return cls._instance
-
-
 
 
 def transcribe_audio_to_srt(audio_path):
@@ -37,7 +38,7 @@ def transcribe_audio_to_srt(audio_path):
         # response = client.audio.transcriptions.create("whisper-1", audio_data)
         client = OpenAIClientSingleton.getInstance()
         response = client.audio.transcriptions.create(
-            model="whisper-1", 
+            model="whisper-1",
             file=audio,
             response_format="verbose_json",
             # timestamp_granularities=["word"]
@@ -45,7 +46,6 @@ def transcribe_audio_to_srt(audio_path):
         print(response)
         # print(response.words)
         print(response.segments)
-        
 
     def format_time(seconds):
         millis = int(seconds * 1000)
@@ -57,15 +57,15 @@ def transcribe_audio_to_srt(audio_path):
 
     srt_content = ""
     for i, segment in enumerate(response.segments):
-        start_time = segment['start']
-        end_time = segment['end']
-        text = segment['text']
+        start_time = segment["start"]
+        end_time = segment["end"]
+        text = segment["text"]
         srt_content += f"{i + 1}\n"
         srt_content += f"{format_time(start_time)} --> {format_time(end_time)}\n"
         srt_content += f"{text}\n\n"
 
     output_srt = os.path.splitext(audio_path)[0] + ".srt"
-    with open(output_srt, "w", encoding='utf-8') as srt_file:
+    with open(output_srt, "w", encoding="utf-8") as srt_file:
         srt_file.write(srt_content)
 
     return output_srt
@@ -80,7 +80,7 @@ def get_tts(text, output_folder):
     )
 
     audio_data = response.content
-    base_filename = re.sub(r'[^\w\s\u4e00-\u9fff]', '', text[:20]).replace(' ', '_')
+    base_filename = re.sub(r"[^\w\s\u4e00-\u9fff]", "", text[:20]).replace(" ", "_")
     output_path = os.path.join(output_folder, base_filename + ".mp3")
 
     counter = 1
@@ -90,12 +90,10 @@ def get_tts(text, output_folder):
 
     with open(output_path, "wb") as audio_file:
         audio_file.write(audio_data)
-    
+
     # write txt file
     txt_path = os.path.join(output_folder, base_filename + ".txt")
-    with open(txt_path, "w", encoding='utf-8') as txt_file:
+    with open(txt_path, "w", encoding="utf-8") as txt_file:
         txt_file.write(text)
-    
 
     return output_path
-
