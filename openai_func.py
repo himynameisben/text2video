@@ -72,7 +72,7 @@ def transcribe_audio_to_srt(audio_path):
 
 
 def get_tts(
-    text, output_folder, voice="onyx", response_format="mp3", filename_index=None
+    text, output_folder, voice="onyx", response_format="mp3", filename_index=None, only_index=False,
 ):
     # check allowed voices
     voices = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"]
@@ -96,7 +96,10 @@ def get_tts(
     audio_data = response.content
     base_filename = re.sub(r"[^\w\s\u4e00-\u9fff]", "", text[:30]).replace(" ", "_")
     if filename_index:
-        base_filename = f"{filename_index}_{base_filename}"
+        if only_index:
+            base_filename = f"{filename_index}"
+        else:
+            base_filename = f"{filename_index}_{base_filename}"
     output_path = os.path.join(output_folder, base_filename + f".{response_format}")
 
     counter = 1

@@ -92,15 +92,18 @@ def batch_generate_tts(text, output_folder, response_format="mp3", add_index=Tru
         try:
             voice = voice.lower()
             filename_index = None
+            only_index = False
             file_count += 1
             if add_index:
                 filename_index = str(file_count).zfill(3)
+                only_index = True
             audio_path = get_tts(
                 text_to_convert,
                 output_folder,
                 voice=voice,
                 response_format=response_format,
                 filename_index=filename_index,
+                only_index=only_index,
             )
             success_count += 1
         except Exception as e:
