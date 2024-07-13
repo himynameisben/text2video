@@ -5,9 +5,6 @@ from moviepy.editor import *
 from moviepy.video.tools.subtitles import SubtitlesClip
 from pysrt import open as open_srt
 
-VIDEO_WIDTH = 640
-VIDEO_HEIGHT = 480
-
 
 # Read the SRT file and parse subtitles
 def parse_subtitles(srt_file):
@@ -18,15 +15,15 @@ def parse_subtitles(srt_file):
 
 
 # Generate subtitle clip
-def make_subtitle_clip(subs):
+def make_subtitle_clip(subs, font_size, video_width):
     def generator(txt):
         # return TextClip(txt, font='Arial', fontsize=24, color='white')
         return TextClip(
             txt,
             font="Arial",
-            fontsize=48,
+            fontsize=font_size,
             color="white",
-            size=(VIDEO_WIDTH, None),
+            size=(video_width, None),
             method="caption",
             align="center",
         )
@@ -35,20 +32,20 @@ def make_subtitle_clip(subs):
 
 
 # Main function
-def create_video_with_subtitles(srt_file, mp3_file, output_file):
+def create_video_with_subtitles(srt_file, mp3_file, output_file, width, height, font_size):
     # Parse subtitles
     subs = parse_subtitles(srt_file)
     print(subs)
 
     # Generate subtitle clip
-    subtitle_clip = make_subtitle_clip(subs)
+    subtitle_clip = make_subtitle_clip(subs, font_size, width)
 
     # Read the MP3 file
     audio_clip = AudioFileClip(mp3_file)
 
     # Generate a video clip with black background, same length as the audio file
     video_clip = ColorClip(
-        size=(VIDEO_WIDTH, VIDEO_HEIGHT), color=(0, 0, 0), duration=audio_clip.duration
+        size=(width, height), color=(0, 0, 0), duration=audio_clip.duration
     )
 
     # Set the audio file as the background audio of the video
