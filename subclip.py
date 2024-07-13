@@ -32,7 +32,9 @@ def make_subtitle_clip(subs, font_size, video_width):
 
 
 # Main function
-def create_video_with_subtitles(srt_file, mp3_file, output_file, width, height, font_size):
+def create_video_with_subtitles(
+    srt_file, mp3_file, output_file, width, height, font_size
+):
     # Parse subtitles
     subs = parse_subtitles(srt_file)
     print(subs)
