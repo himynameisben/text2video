@@ -1,3 +1,4 @@
+import re
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
@@ -69,6 +70,47 @@ def generate_tts(text_input, label_folder_path):
         )
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {str(e)}")
+
+
+def batch_generate_tts(text, output_folder, response_format="mp3", add_index=True):
+    lines = text.strip().split("\n")
+    voices = ["Alloy", "Echo", "Fable", "Onyx", "Nova", "Shimmer"]
+    success_count = 0
+    failed_count = 0
+    file_count = 0
+    for line in lines:
+        if not line.strip():
+            continue
+        match = re.match(r"(\w+):\s*(.*)", line)
+        if match and match.group(1) in voices:
+            voice = match.group(1)
+            text_to_convert = match.group(2)
+        else:
+            voice = "onyx"  # Use a default voice if none is specified
+            text_to_convert = line
+
+        try:
+            voice = voice.lower()
+            filename_index = None
+            file_count += 1
+            if add_index:
+                filename_index = str(file_count).zfill(3)
+            audio_path = get_tts(
+                text_to_convert,
+                output_folder,
+                voice=voice,
+                response_format=response_format,
+                filename_index=filename_index,
+            )
+            success_count += 1
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {str(e)}")
+            failed_count += 1
+
+    messagebox.showinfo(
+        "Batch TTS Generation Complete",
+        f"Success: {success_count}, Failed: {failed_count}",
+    )
 
 
 def create_subtitled_video(

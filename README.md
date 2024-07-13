@@ -7,10 +7,46 @@ text2video is a tool that enables you to generate text-to-speech (TTS) audio, co
 - **Text-to-Speech (TTS) Generation**: Converts text into speech and saves it as an MP3 file.
 - **Audio to SRT Conversion**: Converts audio files (MP3) into SRT subtitle files.
 - **Create Video with Subtitles**: Combines an MP3 file and an SRT file to create a video with embedded subtitles.
+- **Batch Text-to-Speech (TTS) Generation**: Allows users to input multiple lines of text and generates an audio file for each line. Users can select from multiple voice characters and choose the audio file format (mp3, opus, aac, flac, pcm).
 
-## Screenshot
+## Usage
+
+### Text-to-Speech (TTS) Generation
+
+
 ![Text to Speech](images/tts_screenshot.jpg)
+
+1. Select the output folder for the generated MP3 files.
+2. Enter the text you want to convert into speech.
+3. Click the "Generate TTS" button.
+
+
+### Audio to SRT Conversion
+
+1. Select the MP3 file you want to convert.
+2. Click the "Convert to SRT" button.
+
+### Create Video with Subtitles
+
 ![Create Image](images/create_video_screenshot.jpg)
+
+1. Select the SRT file and the MP3 file you want to combine.
+2. Enter the video width, height, and font size for the subtitles.
+3. Click the "Create Video with Subtitles" button.
+
+### Batch Text-to-Speech (TTS) Generation
+
+![Batch TTS](images/batch_tts.jpg)
+
+1. Navigate to the "Batch TTS" page.
+2. Enter multiple lines of text. To use a specific voice, prefix the text with the voice name followed by a colon. Allowed voices are: Alloy, Echo, Fable, Onyx, Nova, Shimmer. For example:
+    ```
+    Alloy: Hey, Nora! Did you hear about Goldman Sachs’ latest move into the digital asset space?
+    Nova: Yeah, I did. It’s pretty exciting. They’re launching three new tokenization projects by the end of this year, right?
+    ```
+3. Select the output folder for the generated audio files.
+4. Choose the desired audio file format from the dropdown menu.
+5. Click the "Generate Audio Files" button.
 
 
 
@@ -33,7 +69,7 @@ text2video is a tool that enables you to generate text-to-speech (TTS) audio, co
 To start the GUI, run:
 
 ```bash
-python tkgui.py
+python main.py
 ```
 
 
