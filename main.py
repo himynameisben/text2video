@@ -2,6 +2,7 @@ import tkinter as tk
 import configparser
 from settings_ui import create_settings_frame
 from subclip_ui import create_subclip_frame
+from batch_tts_ui import create_batch_tts_frame
 from main_ui import create_main_frame
 from utils import load_settings
 
@@ -19,11 +20,13 @@ root.title("Audio to SRT Converter, TTS Generator, and Subtitle Video Creator")
 main_frame = create_main_frame(root)
 settings_frame, entry_api_key = create_settings_frame(root, main_frame)
 subclip_frame = create_subclip_frame(root, main_frame)
+batch_tts_frame = create_batch_tts_frame(root, main_frame)
 
 
 def show_settings_page():
     main_frame.pack_forget()
     subclip_frame.pack_forget()
+    batch_tts_frame.pack_forget()
     settings_frame.pack(padx=10, pady=10, fill="both", expand="yes")
     load_settings(entry_api_key)
 
@@ -31,13 +34,22 @@ def show_settings_page():
 def show_main_page():
     settings_frame.pack_forget()
     subclip_frame.pack_forget()
+    batch_tts_frame.pack_forget()
     main_frame.pack(padx=10, pady=10, fill="both", expand="yes")
 
 
 def show_subclip_page():
     main_frame.pack_forget()
     settings_frame.pack_forget()
+    batch_tts_frame.pack_forget()
     subclip_frame.pack(padx=10, pady=10, fill="both", expand="yes")
+
+
+def show_batch_tts_page():
+    main_frame.pack_forget()
+    settings_frame.pack_forget()
+    subclip_frame.pack_forget()
+    batch_tts_frame.pack(padx=10, pady=10, fill="both", expand="yes")
 
 
 # Menu bar
@@ -52,6 +64,11 @@ menu_bar.add_cascade(label="Home", menu=home_menu)
 create_video_menu = tk.Menu(menu_bar, tearoff=0)
 create_video_menu.add_command(label="Create Video", command=show_subclip_page)
 menu_bar.add_cascade(label="Create Video", menu=create_video_menu)
+
+# Batch TTS menu
+batch_tts_menu = tk.Menu(menu_bar, tearoff=0)
+batch_tts_menu.add_command(label="Batch TTS", command=show_batch_tts_page)
+menu_bar.add_cascade(label="Batch TTS", menu=batch_tts_menu)
 
 # Settings menu
 settings_menu = tk.Menu(menu_bar, tearoff=0)

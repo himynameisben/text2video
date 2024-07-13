@@ -71,17 +71,33 @@ def transcribe_audio_to_srt(audio_path):
     return output_srt
 
 
-def get_tts(text, output_folder):
+def get_tts(
+    text, output_folder, voice="onyx", response_format="mp3", filename_index=None
+):
+    # check allowed voices
+    voices = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"]
+    if voice.lower() not in voices:
+        raise ValueError(
+            f"Voice {voice} is not allowed. Allowed voices are: {', '.join(voices)}"
+        )
+
+    # check file type
+    file_types = ["mp3", "opus", "aac", "flac", "pcm"]
+    if response_format.lower() not in file_types:
+        raise ValueError(
+            f"File type {response_format} is not allowed. Allowed file types are: {', '.join(file_types)}"
+        )
+
     client = OpenAIClientSingleton.getInstance()
     response = client.audio.speech.create(
-        model="tts-1",
-        voice="onyx",
-        input=text,
+        model="tts-1", voice=voice.lower(), input=text, response_format=response_format
     )
 
     audio_data = response.content
-    base_filename = re.sub(r"[^\w\s\u4e00-\u9fff]", "", text[:20]).replace(" ", "_")
-    output_path = os.path.join(output_folder, base_filename + ".mp3")
+    base_filename = re.sub(r"[^\w\s\u4e00-\u9fff]", "", text[:30]).replace(" ", "_")
+    if filename_index:
+        base_filename = f"{filename_index}_{base_filename}"
+    output_path = os.path.join(output_folder, base_filename + f".{response_format}")
 
     counter = 1
     while os.path.exists(output_path):
