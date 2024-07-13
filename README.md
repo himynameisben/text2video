@@ -8,6 +8,12 @@ text2video is a tool that enables you to generate text-to-speech (TTS) audio, co
 - **Audio to SRT Conversion**: Converts audio files (MP3) into SRT subtitle files.
 - **Create Video with Subtitles**: Combines an MP3 file and an SRT file to create a video with embedded subtitles.
 
+## Screenshot
+![Text to Speech](images/tts_screenshot.jpg)
+![Create Image](images/create_video_screenshot.jpg)
+
+
+
 ## Installation
 
 1. Clone the repository:
